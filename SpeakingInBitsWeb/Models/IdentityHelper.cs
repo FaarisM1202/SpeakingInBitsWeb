@@ -22,5 +22,25 @@ namespace SpeakingInBitsWeb.Models
                 }
             }        
         }
+
+        public static async Task CreateDefaultUser(IServiceProvider provider, string role)
+        {
+            var userManager = provider.GetService<UserManager<IdentityUser>>();
+
+            // If no users are present, make a default user
+            int numUsers = (await userManager.GetUsersInRoleAsync(role)).Count;
+            if(numUsers == 0)
+            {
+                var defaultUser = new IdentityUser()
+                {
+                    Email = "Instructor@speakinginbits.com",
+                    UserName = "Admin"
+                };
+
+                await userManager.CreateAsync(defaultUser, "Programmer01#");
+
+                await userManager.AddToRoleAsync(defaultUser, role);
+            }
+        }
     }
 }
