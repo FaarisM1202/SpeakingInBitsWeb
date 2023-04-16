@@ -67,6 +67,8 @@ app.MapRazorPages();
 IServiceScope serviceProvider = app.Services.GetRequiredService<IServiceProvider>().CreateScope();
 // Create default roles
 await IdentityHelper.CreateRoles(serviceProvider.ServiceProvider, IdentityHelper.Instructor, IdentityHelper.Student);
+
 // Create a default instructor
+await IdentityHelper.CreateDefaultUser(serviceProvider.ServiceProvider, IdentityHelper.Instructor);
 
 app.Run();
